@@ -1,8 +1,11 @@
 package com.ps.config;
 
+import com.ps.repo.stub.StubPetRepo;
+import com.ps.repos.PetRepo;
+import com.ps.services.impl.SimplePetService;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
 
 /**
@@ -10,6 +13,17 @@ import org.springframework.context.annotation.ImportResource;
  */
 @Configuration
 @ComponentScan(basePackages = "com.ps.repo.stub")
-@ImportResource(value = {"classpath:spring/test-cfg.xml", "classpath:spring/pet-cfg.xml"})
-public class TestAppConfig {
+public class TestAppConfigAlternative {
+
+    @Bean
+    public PetRepo petRepo(){
+        return new StubPetRepo();
+    }
+
+    @Bean
+    public SimplePetService simplePetService(){
+        SimplePetService simplePetService = new SimplePetService();
+        simplePetService.setRepo(petRepo());
+        return simplePetService;
+    }
 }
