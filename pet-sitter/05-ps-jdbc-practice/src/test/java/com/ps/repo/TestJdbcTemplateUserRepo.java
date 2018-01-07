@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -45,17 +46,18 @@ public class TestJdbcTemplateUserRepo {
         assertEquals("John", user.getUsername());
     }
 
-    @Test
+    @Test(expected = DataAccessException.class)
     public void testNoFindById() {
-        // TODO 27: Use the JdbcTemplate instance to query for a user that does not exist and make this test pass
-        User user = null;
+        // DONE 27: Use the JdbcTemplate instance to query for a user that does not exist and make this test pass
+        User user = userRepo.findById(5L);
         assertEquals("Darius", user.getUsername());
     }
 
     @Test
     public void testCount(){
         int result = 0;
-        // TODO 28: Use the JdbcTemplate instance to query for the number of rows in the P_USER table
+        // DONE 28: Use the JdbcTemplate instance to query for the number of rows in the P_USER table
+        result = userRepo.findAll().size();
         assertEquals(4, result);
     }
 

@@ -15,7 +15,7 @@ import java.util.*;
  * Created by iuliana.cosmina on 6/4/16.
  */
 @Repository("userNamedTemplateRepo")
-//TODO 29. Some of the methods have incomplete bodies that need to be completed with appropriate NamedParameterJdbcTemplate instance calls.
+//DONE 29. Some of the methods have incomplete bodies that need to be completed with appropriate NamedParameterJdbcTemplate instance calls.
 public class JdbcNamedTemplateUserRepo implements UserRepo {
 
     private RowMapper<User> rowMapper = new UserRowMapper();
@@ -59,13 +59,17 @@ public class JdbcNamedTemplateUserRepo implements UserRepo {
         params.put("email", email);
         String query = "insert into p_user(ID, USERNAME, PASSWORD, EMAIL) values(:id,:un,:pass, :email)";
         // add NamedParameterJdbcTemplate instance call to create an user
-        return 0;
+        return jdbcNamedTemplate.update(query, params);
     }
 
     @Override
     public int deleteById(Long userId) {
         // add NamedParameterJdbcTemplate instance call to delete an user
-        return 0;
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", userId);
+
+        String query = "delete p_user where id = :id";
+        return jdbcNamedTemplate.update(query, params);
     }
 
     @Override
@@ -79,7 +83,7 @@ public class JdbcNamedTemplateUserRepo implements UserRepo {
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
         // add NamedParameterJdbcTemplate instance call to find an user
-        return null;
+        return jdbcNamedTemplate.queryForObject(sql,params, rowMapper);
     }
 
     @Override

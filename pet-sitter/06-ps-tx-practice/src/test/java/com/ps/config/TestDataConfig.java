@@ -12,6 +12,7 @@ import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.sql.Driver;
@@ -81,5 +82,9 @@ public class TestDataConfig {
         return new JdbcTemplate(dataSource());
     }
 
-   //TODO 31. Define a transaction manager bean of the appropriate type
+   //DONE 31. Define a transaction manager bean of the appropriate type
+    @Bean
+    public PlatformTransactionManager transactionManager(){
+        return new DataSourceTransactionManager(dataSource());
+    }
 }
